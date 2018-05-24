@@ -1,0 +1,91 @@
+﻿<Page
+    x:Class="StartFinance.Views.ContactDetailsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Behaviors="using:Template10.Behaviors"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:controls="using:Template10.Controls"
+    xmlns:local="using:StartFinance.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:StartFinance.ViewModels"
+    Loaded="Page_Loaded"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="ContactsListView">
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding ContactID}" Padding="0,0,15,0"/>
+                    <TextBlock Text="{Binding FirstName}" Padding="0,0,15,0"/>
+                    <TextBlock Text="{Binding LastName}" Padding="0,0,15,0"/>
+                    <TextBlock Text="{Binding CompanyName}" Padding="0,0,15,0"/>
+                    <TextBlock Text="{Binding MobilePhoneNumber}" Padding="0,0,15,0"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Page.DataContext>
+        <vm:MainPageViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+
+        <controls:PageHeader x:Name="pageHeader" RelativePanel.AlignLeftWithPanel="True"
+			RelativePanel.AlignRightWithPanel="True"
+			RelativePanel.AlignTopWithPanel="True" Text="Add/Remove Contacts">
+
+            <!--  secondary commands  -->
+            <controls:PageHeader.SecondaryCommands>
+                <AppBarButton Click="{x:Bind ViewModel.GotoSettings}" Label="Settings" />
+                <AppBarButton Click="{x:Bind ViewModel.GotoPrivacy}" Label="Privacy" />
+                <AppBarButton Click="{x:Bind ViewModel.GotoAbout}" Label="About" />
+            </controls:PageHeader.SecondaryCommands>
+        </controls:PageHeader>
+
+        <controls:PageHeader x:Name="pageFooter" RelativePanel.AlignLeftWithPanel="True"
+			RelativePanel.AlignRightWithPanel="True"
+			RelativePanel.AlignBottomWithPanel="True">
+
+            <!--  secondary commands  -->
+            <controls:PageHeader.PrimaryCommands>
+                <AppBarButton Icon="Add" Label="Add Contact Details" Click="AddItem_Click" />
+                <AppBarButton Icon="Edit" Label="Edit Contact Details" Click="EditItem_Click" />
+                <AppBarButton Icon="Delete" Label="Delete Contact Details" Click="DeleteItem_Click" />
+            </controls:PageHeader.PrimaryCommands>
+        </controls:PageHeader>
+
+
+        <Pivot>
+            <RelativePanel.Below>pageHeader</RelativePanel.Below>
+            <RelativePanel.Above>pageFooter</RelativePanel.Above>
+            <PivotItem Header="Contacts">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="320"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel x:Name="PageStart" Grid.Row="0" VerticalAlignment="Top"
+                        HorizontalAlignment="Stretch"
+                        Orientation="Vertical" Margin="10,5,10,0">
+                        <TextBox x:Name="ContactIDTextBox" Header="Contact ID" PlaceholderText="Enter Contact ID" InputScope="Number" TextWrapping="Wrap"/>
+                        <TextBox x:Name="FirstNameTextBox" Header="First Name" PlaceholderText="Enter First Name" TextWrapping="Wrap"/>
+                        <TextBox x:Name="LastNameTextBox" Header="Last Name" PlaceholderText="Enter Last Name" TextWrapping="Wrap"/>
+                        <TextBox x:Name="CompanyNameTextBox" Header="Company Name" PlaceholderText="Enter Company Name" TextWrapping="Wrap"/>
+                        <TextBox x:Name="MobilePhoneTextBox" Header="Mobile Phone Number" PlaceholderText="Enter Mobile Phone Number" InputScope="Number" TextWrapping="Wrap"/>
+
+                    </StackPanel>
+                    <ListView x:Name="ContactList" Grid.Row="1" ItemTemplate="{StaticResource ContactsListView}"
+                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="ContactList_SelectionChanged">
+                        <RelativePanel.Below>PageStart</RelativePanel.Below>
+                    </ListView>
+                </Grid>
+            </PivotItem>
+        </Pivot>
+
+    </RelativePanel>
+</Page>
